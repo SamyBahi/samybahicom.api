@@ -10,13 +10,12 @@ RUN env
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN if [ "${NODE_ENV}" = "development" ]; then \
-  # Actions spécifiques pour l'environnement de développement \
+  # dev \
   npm install \
   ; else \
-  # Actions spécifiques pour l'environnement de production \
+  # prod
   npm install --only=production \
   ; fi
-#RUN npm install
 
 WORKDIR /opt/app
 COPY . .
@@ -25,7 +24,6 @@ RUN chown -R node:node /opt/app
 USER node
 RUN ["npm", "run", "build"]
 EXPOSE 1337
-#CMD ["npm", "run", "develop"]
 CMD if [ "${NODE_ENV}" = "development" ]; then \
   npm run develop \
   ; else \
