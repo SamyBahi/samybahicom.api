@@ -1,72 +1,57 @@
-version: '3'
+version: "3"
 services:
-  samybahicom-strapi:
-    container_name: samybahicom-strapi
+  strapi:
+    container_name: sbc-strapi
     build: .
-    image: samybahicom-strapi:latest
+    image: sbc-strapi:latest
     restart: unless-stopped
     env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_HOST: samybahicom-strapiDB
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
-      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
     volumes:
       - ./config:/opt/app/config
       - ./src:/opt/app/src
       - ./package.json:/opt/package.json
-      - ./package-lock.json:/opt/package-lock.json
-
       - ./.env:/opt/app/.env
       - ./public/uploads:/opt/app/public/uploads
     ports:
-      - '1337:1337'
+      - "1337:1337"
     networks:
-      - samybahicom-strapi
+      - sbc
     depends_on:
-      - samybahicom-strapiDB
-      
-  samybahicom-strapiDB:
-    container_name: samybahicom-strapiDB
+      - strapiDB
+
+  strapiDB:
+    container_name: strapiDB
     platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     env_file: .env
-    image: postgres:14.5-alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      #- samybahicom-strapi-data:/var/lib/postgresql/data/ #using a volume
-      - ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
+      - sbc-strapi-data:/var/lib/postgresql/data/ #using a volume
 
     ports:
-      - '5432:5432'
+      - "5432:5432"
     networks:
-      - samybahicom-strapi
-      
-  samybahicom-strapiAdminer:
-    container_name: samybahicom-strapiAdminer
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - '9090:8080'
-    environment:
-      - ADMINER_DEFAULT_SERVER=samybahicom-strapiDB
-    networks:
-      - samybahicom-strapi
-    depends_on:
-      - samybahicom-strapiDB
+      - sbc
 
 volumes:
-  samybahicom-strapi-data:
+  sbc-strapi-data:
 
 networks:
-  samybahicom-strapi:
-    name: Samybahicom-strapi
+  sbc:
+    name: sbc
     driver: bridge
