@@ -2,7 +2,11 @@ version: "3"
 services:
   strapi:
     container_name: sbc-strapi
-    build: .
+    build:
+      context: .
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - NGINX_URL=${NGINX_URL}
     image: sbc-strapi:latest
     restart: unless-stopped
     env_file: .env
@@ -17,6 +21,7 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
+      NGINX_URL: ${NGINX_URL}
     volumes:
       - ./config:/opt/app/config
       - ./src:/opt/app/src
@@ -42,7 +47,6 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - sbc-strapi-data:/var/lib/postgresql/data/ #using a volume
-
     ports:
       - "5432:5432"
     networks:
