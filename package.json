@@ -2,7 +2,7 @@
   "name": "samybahicom-api",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "The backend CMS for samybahicom",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
@@ -16,7 +16,7 @@
     "pg": "^8.11.1"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Samy Bahi"
   },
   "strapi": {
     "uuid": "77ab1ad2-e475-4a81-881c-cedf1e3d64d9"
