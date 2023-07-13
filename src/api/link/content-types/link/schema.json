@@ -14,10 +14,13 @@
   "attributes": {
     "title": {
       "type": "string",
-      "unique": true
+      "unique": true,
+      "required": true
     },
     "url": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }

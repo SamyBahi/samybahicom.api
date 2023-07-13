@@ -17,10 +17,12 @@
       "required": true
     },
     "university": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "speciality": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   }
 }

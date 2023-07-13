@@ -19,7 +19,7 @@
     "image": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
@@ -29,7 +29,8 @@
       "required": true
     },
     "period": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "link": {
       "type": "relation",
